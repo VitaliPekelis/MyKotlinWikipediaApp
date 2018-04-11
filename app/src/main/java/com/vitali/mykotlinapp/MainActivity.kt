@@ -6,7 +6,7 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main2.*
 
-class Main2Activity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -30,7 +30,8 @@ class Main2Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
 
-        message_tv.setOnClickListener{ _ -> startActivity(Intent(this, ArticleDetailActivity::class.java))}
+        message_tv.setOnClickListener{ _ -> startActivity(Intent(this, ArticleDetailActivity::class.java))
+            /*startActivity(Intent(this, SearchActivity::class.java))*/}
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
