@@ -1,12 +1,16 @@
-package com.vitali.mykotlinapp
+package com.vitali.mykotlinapp.main
 
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.vitali.mykotlinapp.ArticleCardAdapter
+import com.vitali.mykotlinapp.R
+import kotlinx.android.synthetic.main.fragment_explore.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -17,13 +21,13 @@ private const val ARG_PARAM2 = "param2"
 /**
  * A simple [Fragment] subclass.
  * Activities that contain this fragment must implement the
- * [FavoritesFragment.OnFragmentInteractionListener] interface
+ * [ExploreFragment.OnFragmentInteractionListener] interface
  * to handle interaction events.
- * Use the [FavoritesFragment.newInstance] factory method to
+ * Use the [ExploreFragment.newInstance] factory method to
  * create an instance of this fragment.
  *
  */
-class FavoritesFragment : Fragment() {
+class ExploreFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -40,12 +44,21 @@ class FavoritesFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorites, container, false)
+        return inflater.inflate(R.layout.fragment_explore, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        search_card_view.setOnClickListener{
+            listener?.onSearchClick()
+        }
+
+        explore_article_rv.layoutManager = LinearLayoutManager(context)
+        explore_article_rv.adapter = ArticleCardAdapter()
+    }
     // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
-        listener?.onFragmentInteraction(uri)
+        listener?.onExploreFragmentInteraction(/*uri*/)
     }
 
     override fun onAttach(context: Context) {
@@ -74,8 +87,8 @@ class FavoritesFragment : Fragment() {
      * for more information.
      */
     interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        fun onFragmentInteraction(uri: Uri)
+        fun onExploreFragmentInteraction(/*uri: Uri*/)
+        fun onSearchClick()
     }
 
     companion object {
@@ -83,17 +96,15 @@ class FavoritesFragment : Fragment() {
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
          *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FavoritesFragment.
+         * @return A new instance of fragment ExploreFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-                FavoritesFragment().apply {
+        fun newInstance(/*param1: String, param2: String*/) =
+                ExploreFragment().apply {
                     arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
+                        /*putString(ARG_PARAM1, param1)
+                        putString(ARG_PARAM2, param2)*/
                     }
                 }
     }

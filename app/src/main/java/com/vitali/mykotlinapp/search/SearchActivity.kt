@@ -1,4 +1,4 @@
-package com.vitali.mykotlinapp
+package com.vitali.mykotlinapp.search
 
 import android.app.SearchManager
 import android.content.Context
@@ -8,6 +8,7 @@ import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import com.vitali.mykotlinapp.R
 import kotlinx.android.synthetic.main.activity_article_detail.*
 
 class SearchActivity : AppCompatActivity() {

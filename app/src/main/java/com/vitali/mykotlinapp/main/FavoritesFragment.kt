@@ -1,12 +1,16 @@
-package com.vitali.mykotlinapp
+package com.vitali.mykotlinapp.main
 
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.vitali.mykotlinapp.ArticleListItemAdapter
+import com.vitali.mykotlinapp.R
+import kotlinx.android.synthetic.main.fragment_favorites.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -17,13 +21,13 @@ private const val ARG_PARAM2 = "param2"
 /**
  * A simple [Fragment] subclass.
  * Activities that contain this fragment must implement the
- * [ExploreFragment.OnFragmentInteractionListener] interface
+ * [FavoritesFragment.OnFragmentInteractionListener] interface
  * to handle interaction events.
- * Use the [ExploreFragment.newInstance] factory method to
+ * Use the [FavoritesFragment.newInstance] factory method to
  * create an instance of this fragment.
  *
  */
-class ExploreFragment : Fragment() {
+class FavoritesFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -40,12 +44,17 @@ class ExploreFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_explore, container, false)
+        return inflater.inflate(R.layout.fragment_favorites, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        favorites_article_rv.layoutManager = LinearLayoutManager(context)
+        favorites_article_rv.adapter = ArticleListItemAdapter()
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
-        listener?.onFragmentInteraction(uri)
+        listener?.onFavoritesFragmentInteraction(/*uri*/)
     }
 
     override fun onAttach(context: Context) {
@@ -75,7 +84,7 @@ class ExploreFragment : Fragment() {
      */
     interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onFragmentInteraction(uri: Uri)
+        fun onFavoritesFragmentInteraction(/*uri: Uri*/)
     }
 
     companion object {
@@ -83,17 +92,16 @@ class ExploreFragment : Fragment() {
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
          *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ExploreFragment.
+         *
+         * @return A new instance of fragment FavoritesFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-                ExploreFragment().apply {
+        fun newInstance(/*param1: String, param2: String*/) =
+                FavoritesFragment().apply {
                     arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
+                        /*putString(ARG_PARAM1, param1)
+                        putString(ARG_PARAM2, param2)*/
                     }
                 }
     }
