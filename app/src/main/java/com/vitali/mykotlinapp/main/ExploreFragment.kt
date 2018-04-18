@@ -9,8 +9,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.vitali.mykotlinapp.ArticleCardAdapter
+import com.vitali.mykotlinapp.Logger
 import com.vitali.mykotlinapp.R
+import com.vitali.mykotlinapp.models.WikiResult
+import com.vitali.mykotlinapp.network.NetworkHandler
 import kotlinx.android.synthetic.main.fragment_explore.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -55,6 +61,18 @@ class ExploreFragment : Fragment() {
 
         explore_article_rv.layoutManager = LinearLayoutManager(context)
         explore_article_rv.adapter = ArticleCardAdapter()
+
+
+        NetworkHandler.nameFun("Book", 0,0, 0).enqueue(object : Callback <WikiResult>{
+            override fun onFailure(call: Call<WikiResult>?, t: Throwable?) {
+                Logger.logError("Vitali", call?.request()?.url().toString())
+            }
+
+            override fun onResponse(call: Call<WikiResult>?, response: Response<WikiResult>?) {
+                Logger.logDebug("Vitali", call?.request()?.url().toString())
+            }
+
+        })
     }
     // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {

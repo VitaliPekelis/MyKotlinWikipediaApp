@@ -15,7 +15,7 @@ object Logger {
         Log.d(tag, generateLogText(logText))
     }
 
-    fun logError(tag: String, logText: String) {
+    fun logError(tag: String = TAG, logText: String ="") {
         Log.e(tag, generateLogText(logText))
     }
 

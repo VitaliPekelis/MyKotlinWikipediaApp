@@ -4,10 +4,10 @@ import android.net.Uri
 import com.vitali.mykotlinapp.BuildConfig
 import com.vitali.mykotlinapp.Logger
 
-object RequestStringBuilder {
+object WikiUrl {
 
     private const val schema = "https"
-    private const val host = "en.wikipedia.org/w/api.php"
+    private const val host = "en.wikipedia.org"
 
 
     private const val ACTION = "action"
@@ -18,11 +18,11 @@ object RequestStringBuilder {
     private const val GENERATOR = "generator"
     private const val PREFIXSEARCH = "prefixsearch"
     private const val RANDOM = "random"
-    private const val GPS_SEARCH = "gpssearch"
-    private const val GPS_LIMIT = "gpslimit"
-    private const val GPS_OFFSET = "gpsoffset"
+    const val GPS_SEARCH = "gpssearch"
+    const val GPS_LIMIT = "gpslimit"
+    const val GPS_OFFSET = "gpsoffset"
 
-    private const val PROP = "PROP"
+    private const val PROP = "prop"
     private const val PROP_VALUE = "pageimages|info"
 
     private const val PI_PROP = "piprop"
@@ -31,7 +31,7 @@ object RequestStringBuilder {
     private const val PI_THUMBSIZE = "pithumbsize"
     private const val PI_THUMBSIZE_VALUE = "200"
 
-    private const val PI_LIMIT = "pilimit"
+    const val PI_LIMIT = "pilimit"
     private const val WBPTTERMS = "wbptterms"
     private const val DESCRIPTION = "description"
     private const val FORMAT_ = "format"
@@ -40,9 +40,13 @@ object RequestStringBuilder {
     private const val URL = "url"
     private const val GRNNAMESPACE = "grnnamespace"
     private const val GRNNAMESPACE_VALUE = "0"
-    private const val PRNLIMIT = "prnlimit"
+    const val PRNLIMIT = "prnlimit"
 
 
+    fun getBaseUrl(): String
+    {
+        return Uri.Builder().scheme(schema).encodedAuthority(host).toString()
+    }
 
 
     fun getSearchUrl(term:String, skip: Int, take:Int) :String{
