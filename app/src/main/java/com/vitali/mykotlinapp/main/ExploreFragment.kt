@@ -3,13 +3,12 @@ package com.vitali.mykotlinapp.main
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.vitali.mykotlinapp.ArticleCardAdapter
-import com.vitali.mykotlinapp.Logger
 import com.vitali.mykotlinapp.R
 import com.vitali.mykotlinapp.models.WikiResult
 import com.vitali.mykotlinapp.network.NetworkHandler
@@ -38,6 +37,7 @@ class ExploreFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
+    private val adapter =  ArticleCardAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,19 +60,41 @@ class ExploreFragment : Fragment() {
         }
 
         explore_article_rv.layoutManager = LinearLayoutManager(context)
-        explore_article_rv.adapter = ArticleCardAdapter()
+        explore_article_rv.adapter = adapter
 
 
-        NetworkHandler.nameFun("Book", 0,0, 0).enqueue(object : Callback <WikiResult>{
+        /*NetworkHandler.getSearch("Sentence", 0,3, 2).enqueue(object : Callback <WikiResult>{
             override fun onFailure(call: Call<WikiResult>?, t: Throwable?) {
-                Logger.logError("Vitali", call?.request()?.url().toString())
+
             }
 
             override fun onResponse(call: Call<WikiResult>?, response: Response<WikiResult>?) {
-                Logger.logDebug("Vitali", call?.request()?.url().toString())
+
+            }
+
+        })*/
+
+
+        NetworkHandler.getRandom(15).enqueue(object : Callback<WikiResult>{
+            override fun onResponse(call: Call<WikiResult>?, response: Response<WikiResult>?) {
+                val rootView = getView()
+                rootView?.let {
+                    val dataList = response?.body()?.query?.pages
+                    if(dataList!=null)
+                        adapter.currentData = dataList
+
+                }
+            }
+
+            override fun onFailure(call: Call<WikiResult>?, t: Throwable?) {
+                val rootView = getView()
+                rootView?.let {
+                    Snackbar.make(rootView,"An error occurred",Snackbar.LENGTH_SHORT).show()
+                }
             }
 
         })
+
     }
     // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {

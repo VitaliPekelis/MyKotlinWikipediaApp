@@ -1,15 +1,19 @@
-package com.vitali.mykotlinapp
+package com.vitali.mykotlinapp.main
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.ViewGroup
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.vitali.mykotlinapp.IRecyclerViewItemData
+import com.vitali.mykotlinapp.R
 
 class ArticleCardAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     //private var data: IRecyclerViewItemData
+
+    var currentData: ArrayList<out IRecyclerViewItemData> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 

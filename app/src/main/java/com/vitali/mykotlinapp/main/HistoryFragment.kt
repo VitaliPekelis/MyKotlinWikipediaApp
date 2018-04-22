@@ -8,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.vitali.mykotlinapp.ArticleCardAdapter
 import com.vitali.mykotlinapp.R
 import kotlinx.android.synthetic.main.fragment_history.*
 

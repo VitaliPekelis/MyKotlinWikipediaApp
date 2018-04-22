@@ -1,8 +1,6 @@
 package com.vitali.mykotlinapp.network
 
 import android.net.Uri
-import com.vitali.mykotlinapp.BuildConfig
-import com.vitali.mykotlinapp.Logger
 
 object WikiUrl {
 
@@ -41,6 +39,7 @@ object WikiUrl {
     private const val GRNNAMESPACE = "grnnamespace"
     private const val GRNNAMESPACE_VALUE = "0"
     const val PRNLIMIT = "prnlimit"
+    const val GRNLIMIT = "grnlimit"
 
 
     fun getBaseUrl(): String
@@ -49,7 +48,7 @@ object WikiUrl {
     }
 
 
-    fun getSearchUrl(term:String, skip: Int, take:Int) :String{
+    /*fun getSearchUrl(term:String, skip: Int, take:Int) :String{
         val builder = Uri.Builder()
         builder.scheme(schema).encodedAuthority(host)
 
@@ -71,9 +70,9 @@ object WikiUrl {
         val url = builder.toString()
         if(BuildConfig.DEBUG) Logger.logDebug("DEBUG", url)
         return url
-    }
+    }*/
 
-    fun getRandomUrl(tack: Int) : String{
+    /*fun getRandomUrl(tack: Int) : String{
         val builder = Uri.Builder()
         builder.scheme(schema).encodedAuthority(host)
 
@@ -91,5 +90,5 @@ object WikiUrl {
         val url = builder.toString()
         if(BuildConfig.DEBUG) Logger.logDebug("DEBUG", url)
         return url
-    }
+    }*/
 }

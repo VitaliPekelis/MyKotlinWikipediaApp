@@ -11,9 +11,14 @@ object NetworkHandler {
 
 
 
-    fun nameFun(searchString: String, skip: Int, pilimit : Int, take:Int) : Call<WikiResult>
+    fun getSearch(searchString: String, skip: Int, pilimit : Int = 1, take:Int) : Call<WikiResult>
     {
         return wikiApi.getSearch(searchString, skip, pilimit, take)
+    }
+
+    fun getRandom(take:Int) : Call<WikiResult>
+    {
+        return wikiApi.getRandom(take)
     }
 
 
