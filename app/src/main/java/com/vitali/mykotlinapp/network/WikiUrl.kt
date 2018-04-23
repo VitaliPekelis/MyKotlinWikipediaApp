@@ -2,7 +2,8 @@ package com.vitali.mykotlinapp.network
 
 import android.net.Uri
 
-object WikiUrl {
+object WikiUrl
+{
 
     private const val schema = "https"
     private const val host = "en.wikipedia.org"

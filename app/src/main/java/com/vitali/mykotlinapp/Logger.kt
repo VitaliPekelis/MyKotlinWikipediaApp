@@ -3,36 +3,44 @@ package com.vitali.mykotlinapp
 import android.util.Log
 import java.lang.StringBuilder
 
-object Logger {
+object Logger
+{
 
     private val TAG = Logger::class.java.simpleName
 
-    fun logDebug() {
+    fun logDebug()
+    {
         Log.d(TAG, generateLogText(""))
     }
 
-    fun logDebug(tag: String, logText: String) {
+    fun logDebug(tag: String, logText: String)
+    {
         Log.d(tag, generateLogText(logText))
     }
 
-    fun logError(tag: String = TAG, logText: String ="") {
+    fun logError(tag: String = TAG, logText: String = "")
+    {
         Log.e(tag, generateLogText(logText))
     }
 
-    fun logError(tag: String, logText: String, tr: Throwable) {
+    fun logError(tag: String, logText: String, tr: Throwable)
+    {
         Log.w(tag, generateLogText(logText), tr)
     }
 
-    fun logInfo(tag: String, logText: String) {
+    fun logInfo(tag: String, logText: String)
+    {
         Log.i(tag, generateLogText(logText))
     }
 
-    private fun generateLogText(logText: String): String {
+    private fun generateLogText(logText: String): String
+    {
         var response = logText
 
         val stackTrace = Thread.currentThread().stackTrace
 
-        if (stackTrace != null && stackTrace.size > 4) {
+        if (stackTrace != null && stackTrace.size > 4)
+        {
             val element = stackTrace[4]
             val fullClassName = element.className
             val className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1) //no package

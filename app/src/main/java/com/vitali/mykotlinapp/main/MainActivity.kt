@@ -11,13 +11,15 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity(),
         ExploreFragment.OnFragmentInteractionListener,
         FavoritesFragment.OnFragmentInteractionListener,
-        HistoryFragment.OnFragmentInteractionListener {
+        HistoryFragment.OnFragmentInteractionListener
+{
 
     private val exploreFragment: ExploreFragment
     private val favoritesFragment: FavoritesFragment
     private val historyFragment: HistoryFragment
 
-    init {
+    init
+    {
         exploreFragment = ExploreFragment.newInstance()
         favoritesFragment = FavoritesFragment.newInstance()
         historyFragment = HistoryFragment.newInstance()
@@ -28,20 +30,21 @@ class MainActivity : AppCompatActivity(),
         val transaction = supportFragmentManager.beginTransaction()
         transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
 
-        when (item.itemId) {
+        when (item.itemId)
+        {
 
-            /*R.id.explore_menu_item -> {
-                //message_tv.setText(R.string.title_explore)
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.favorite_menu_item -> {
-                //message_tv.setText(R.string.title_favorites)
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.history_menu_item -> {
-                //message_tv.setText(R.string.title_history)
-                return@OnNavigationItemSelectedListener true
-            }*/
+        /*R.id.explore_menu_item -> {
+            //message_tv.setText(R.string.title_explore)
+            return@OnNavigationItemSelectedListener true
+        }
+        R.id.favorite_menu_item -> {
+            //message_tv.setText(R.string.title_favorites)
+            return@OnNavigationItemSelectedListener true
+        }
+        R.id.history_menu_item -> {
+            //message_tv.setText(R.string.title_history)
+            return@OnNavigationItemSelectedListener true
+        }*/
 
 
             R.id.explore_menu_item -> transaction.replace(R.id.fragment_container, exploreFragment)
@@ -54,7 +57,8 @@ class MainActivity : AppCompatActivity(),
         true
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -73,24 +77,30 @@ class MainActivity : AppCompatActivity(),
     //----------------------------------------------------------------------------------------------
     // HistoryFragment listener - implementation
     //----------------------------------------------------------------------------------------------
-    override fun onHistoryFragmentInteraction() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-    //----------------------------------------------------------------------------------------------
-    // ExploreFragment listener - implementation
-    //----------------------------------------------------------------------------------------------
-    override fun onExploreFragmentInteraction() {
+    override fun onHistoryFragmentInteraction()
+    {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun onSearchClick() {
-        val searchIntent = Intent(MainActivity@this, SearchActivity::class.java)
+    //----------------------------------------------------------------------------------------------
+    // ExploreFragment listener - implementation
+    //----------------------------------------------------------------------------------------------
+    override fun onExploreFragmentInteraction()
+    {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onSearchClick()
+    {
+        val searchIntent = Intent(MainActivity@ this, SearchActivity::class.java)
         startActivity(searchIntent)
     }
+
     //----------------------------------------------------------------------------------------------
     // FavoritesFragment listener - implementation
     //----------------------------------------------------------------------------------------------
-    override fun onFavoritesFragmentInteraction() {
+    override fun onFavoritesFragmentInteraction()
+    {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

@@ -6,24 +6,26 @@ import okhttp3.Interceptor
 import okhttp3.Response
 import okhttp3.ResponseBody
 
-class LogJsonInterceptor: Interceptor {
+class LogJsonInterceptor : Interceptor
+{
 
-    override fun intercept(chain: Interceptor.Chain?): Response {
+    override fun intercept(chain: Interceptor.Chain?): Response
+    {
         val request = chain?.request()
-        var response:Response? = null
+        var response: Response? = null
         var rawJson = "{empty json}"
 
         request?.let {
             /*url*/
-            if(BuildConfig.DEBUG)
+            if (BuildConfig.DEBUG)
                 Logger.logInfo("URL", request.url().toString())
 
             response = chain.proceed(request)
             rawJson = response?.body()!!.string()
 
             /*json*/
-            if(BuildConfig.DEBUG)
-                    Logger.logInfo("JSON", rawJson)
+            if (BuildConfig.DEBUG)
+                Logger.logInfo("JSON", rawJson)
 
         }
 

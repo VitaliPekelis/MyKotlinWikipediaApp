@@ -1,6 +1,7 @@
 package com.vitali.mykotlinapp
 
-interface IRecyclerViewItemData {
+interface IRecyclerViewItemData
+{
 
     fun getItemType(): Int
 }

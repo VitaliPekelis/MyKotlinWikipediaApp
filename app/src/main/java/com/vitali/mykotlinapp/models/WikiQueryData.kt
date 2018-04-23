@@ -1,5 +1,6 @@
 package com.vitali.mykotlinapp.models
 
-class WiliQueryData {
+class WikiQueryData
+{
     val pages: ArrayList<WikiPage> = ArrayList<WikiPage>()
 }

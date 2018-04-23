@@ -1,5 +1,6 @@
 package com.vitali.mykotlinapp.models
 
-class WikiResult {
-    val query:WiliQueryData? = null
+class WikiResult
+{
+    val query: WikiQueryData? = null
 }

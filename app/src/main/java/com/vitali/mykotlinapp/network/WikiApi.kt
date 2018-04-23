@@ -11,22 +11,24 @@ import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
 
-interface  WikiApi{
+interface WikiApi
+{
 
     @GET("/w/api.php?format=json&action=query&formatversion=2&generator=prefixsearch&prop=pageimages|info&wbptterms=description&inprop=url&pithumbsize=200")
     fun getSearch(
-            @Query(WikiUrl.GPS_SEARCH) term:String,
+            @Query(WikiUrl.GPS_SEARCH) term: String,
             @Query(WikiUrl.GPS_OFFSET) skip: Int,
             @Query(WikiUrl.PI_LIMIT) pilimit: Int,
-            @Query(WikiUrl.GPS_LIMIT) take:Int) : Call<WikiResult>
+            @Query(WikiUrl.GPS_LIMIT) take: Int): Call<WikiResult>
 
     @GET("/w/api.php?format=json&action=query&formatversion=2&grnnamespace=0&generator=random&prop=pageimages|info&inprop=url&pithumbsize=200")
-    fun getRandom(@Query(WikiUrl.GRNLIMIT) take:Int) : Call<WikiResult>
+    fun getRandom(@Query(WikiUrl.GRNLIMIT) take: Int): Call<WikiResult>
 
 
-
-    companion object {
-        fun create() : WikiApi {
+    companion object
+    {
+        fun create(): WikiApi
+        {
 
             /*header to all requests*/
             val requestInterceptor = Interceptor { chain ->
@@ -42,7 +44,7 @@ interface  WikiApi{
                     .build()
 
 
-             val retrofit = Retrofit.Builder()
+            val retrofit = Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(okHttpClient)
                     .baseUrl(WikiUrl.getBaseUrl())

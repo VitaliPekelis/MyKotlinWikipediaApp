@@ -12,10 +12,8 @@ import com.vitali.mykotlinapp.R
 import com.vitali.mykotlinapp.global.AppConstants
 import com.vitali.mykotlinapp.models.WikiPage
 
-class ArticleCardAdapter(val listener: IAdapterListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>()
+class SearchArticlesAdapter(val listener: IAdapterListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>()
 {
-
-    //private var data: IRecyclerViewItemData
 
     var currentData: ArrayList<out IRecyclerViewItemData> = ArrayList()
 
@@ -28,7 +26,8 @@ class ArticleCardAdapter(val listener: IAdapterListener) : RecyclerView.Adapter<
         {
             AppConstants.ARTICLE_ITEM ->
             {
-                ArticleCardViewHolder(layoutInflater.inflate(R.layout.item_card_article, parent, false), listener)
+                ArticleListItemViewHolder(layoutInflater.inflate(R.layout.item_list_article, parent, false),
+                        listener)
             }
 
         /*1 -> {
@@ -49,30 +48,29 @@ class ArticleCardAdapter(val listener: IAdapterListener) : RecyclerView.Adapter<
 
         when (holder)
         {
-            is ArticleCardViewHolder ->
+            is ArticleListItemViewHolder ->
             {
                 val item = currentData[holder.adapterPosition] as? WikiPage
-                onBindArticleCardViewHolder(holder, item)
+                onBindArticleViewHolder(holder, item)
             }
         }
-
     }
 
-    private fun onBindArticleCardViewHolder(h: ArticleCardViewHolder, item: WikiPage?)
+    private fun onBindArticleViewHolder(holder: ArticleListItemViewHolder, item: WikiPage?)
     {
         item?.let {
-            h.articleCardTV.text = item.title
+            holder.articleCardTV.text = item.title
 
             if (item.thumbnail != null)
             {
-                Picasso.with(h.itemView.context).load(item.thumbnail.source).into(h.articleCardIV)
+                Picasso.with(holder.itemView.context).load(item.thumbnail.source).into(holder.articleCardIV)
             }
             else
             {
-                h.articleCardIV.setImageResource(R.drawable.ic_dashboard_black_24dp)
+                holder.articleCardIV.setImageResource(R.drawable.ic_notifications_black_24dp)
             }
 
-            h.updateUrl(it.fullurl)
+            holder.updateUrl(item.fullurl)
         }
     }
 
@@ -83,10 +81,10 @@ class ArticleCardAdapter(val listener: IAdapterListener) : RecyclerView.Adapter<
     }
 
 
-    class ArticleCardViewHolder(itemView: View, listener: IAdapterListener) : RecyclerView.ViewHolder(itemView)
+    class ArticleListItemViewHolder(itemView: View, listener: IAdapterListener) : RecyclerView.ViewHolder(itemView)
     {
-        val articleCardIV: ImageView = itemView.findViewById<ImageView>(R.id.card_article_iv)
-        val articleCardTV: TextView = itemView.findViewById<TextView>(R.id.card_article_tv)
+        val articleCardIV: ImageView = itemView.findViewById<ImageView>(R.id.article_iv)
+        val articleCardTV: TextView = itemView.findViewById<TextView>(R.id.article_tv)
         private var currentUrl: String? = null
 
         init
@@ -97,16 +95,10 @@ class ArticleCardAdapter(val listener: IAdapterListener) : RecyclerView.Adapter<
                 }
             }
         }
-
         fun updateUrl(url: String?)
         {
             currentUrl = url
         }
     }
 
-}
-
-interface IAdapterListener
-{
-    fun clickOnItem(url: String)
 }
