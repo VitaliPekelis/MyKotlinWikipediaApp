@@ -25,6 +25,11 @@
 
         <activity android:name=".articledetails.ArticleDetailActivity"></activity>
 
+        <provider
+            android:name=".db.FavoritesProvider"
+            android:authorities="com.vitali.mykotlinapp.db"
+            android:exported="false"/>
+
     </application>
 
 </manifest>

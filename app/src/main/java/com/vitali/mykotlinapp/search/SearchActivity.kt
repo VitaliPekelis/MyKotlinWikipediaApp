@@ -84,7 +84,7 @@ class SearchActivity : AppCompatActivity(), IAdapterListener
     private fun initUi()
     {
         setSupportActionBar(search_toolbar)
-        supportActionBar!!.setHomeButtonEnabled(true)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         search_rv.layoutManager = LinearLayoutManager(this)
         search_rv.adapter = adapter
