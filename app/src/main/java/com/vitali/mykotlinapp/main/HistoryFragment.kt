@@ -8,7 +8,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.vitali.mykotlinapp.R
+import com.vitali.mykotlinapp.models.WikiPage
 import kotlinx.android.synthetic.main.fragment_history.*
 
 
@@ -85,9 +87,9 @@ class HistoryFragment : Fragment(), IAdapterListener
     //----------------------------------------------------------------------------------------------
     // IAdapterListener - implementation
     //----------------------------------------------------------------------------------------------
-    override fun clickOnItem(url: String)
+    override fun clickOnItem(page: WikiPage)
     {
-
+        Toast.makeText(context, "Click", Toast.LENGTH_SHORT).show()
     }
 
     /**

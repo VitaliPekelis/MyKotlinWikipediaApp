@@ -15,6 +15,7 @@ import com.vitali.mykotlinapp.articledetails.ArticleDetailActivity
 import com.vitali.mykotlinapp.global.AppConstants
 import com.vitali.mykotlinapp.main.IAdapterListener
 import com.vitali.mykotlinapp.main.SearchArticlesAdapter
+import com.vitali.mykotlinapp.models.WikiPage
 import com.vitali.mykotlinapp.models.WikiResult
 import com.vitali.mykotlinapp.network.NetworkHandler
 import kotlinx.android.synthetic.main.activity_search.*
@@ -116,10 +117,10 @@ class SearchActivity : AppCompatActivity(), IAdapterListener
     //----------------------------------------------------------------------------------------------
     // IAdapterListener - implementation
     //----------------------------------------------------------------------------------------------
-    override fun clickOnItem(url: String)
+    override fun clickOnItem(page: WikiPage)
     {
         val intent = Intent(this, ArticleDetailActivity::class.java)
-        intent.putExtra(AppConstants.URL_EXTRA, url)
+        intent.putExtra(AppConstants.PAGE_EXTRA, page)
         startActivity(intent)
     }
 }

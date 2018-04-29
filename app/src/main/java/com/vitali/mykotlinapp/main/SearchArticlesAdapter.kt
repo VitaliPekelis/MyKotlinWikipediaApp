@@ -70,7 +70,7 @@ class SearchArticlesAdapter(val listener: IAdapterListener) : RecyclerView.Adapt
                 holder.articleCardIV.setImageResource(R.drawable.ic_notifications_black_24dp)
             }
 
-            holder.updateUrl(item.fullurl)
+            holder.updateUrl(item)
         }
     }
 
@@ -85,19 +85,19 @@ class SearchArticlesAdapter(val listener: IAdapterListener) : RecyclerView.Adapt
     {
         val articleCardIV: ImageView = itemView.findViewById<ImageView>(R.id.article_iv)
         val articleCardTV: TextView = itemView.findViewById<TextView>(R.id.article_tv)
-        private var currentUrl: String? = null
+        private var currentPage: WikiPage? = null
 
         init
         {
             itemView.setOnClickListener { _ ->
-                currentUrl?.let {
+                currentPage?.let {
                     listener.clickOnItem(it)
                 }
             }
         }
-        fun updateUrl(url: String?)
+        fun updateUrl(page: WikiPage?)
         {
-            currentUrl = url
+            currentPage = page
         }
     }
 

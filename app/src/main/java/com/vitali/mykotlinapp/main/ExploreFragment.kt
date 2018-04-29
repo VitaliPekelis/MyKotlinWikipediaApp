@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import com.vitali.mykotlinapp.R
 import com.vitali.mykotlinapp.articledetails.ArticleDetailActivity
 import com.vitali.mykotlinapp.global.AppConstants
+import com.vitali.mykotlinapp.models.WikiPage
 import com.vitali.mykotlinapp.models.WikiResult
 import com.vitali.mykotlinapp.network.NetworkHandler
 import kotlinx.android.synthetic.main.fragment_explore.*
@@ -133,10 +134,10 @@ class ExploreFragment : Fragment(), IAdapterListener
     //----------------------------------------------------------------------------------------------
     // IAdapterListener - implementation
     //----------------------------------------------------------------------------------------------
-    override fun clickOnItem(url: String)
+    override fun clickOnItem(page: WikiPage)
     {
         val intent = Intent(context, ArticleDetailActivity::class.java)
-        intent.putExtra(AppConstants.URL_EXTRA, url)
+        intent.putExtra(AppConstants.PAGE_EXTRA, page)
         startActivity(intent)
     }
 

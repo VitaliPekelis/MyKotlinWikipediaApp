@@ -22,7 +22,7 @@ class ArticleCardAdapter(val listener: IAdapterListener) : RecyclerView.Adapter<
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
     {
 
-        val layoutInflater = LayoutInflater.from(parent?.context)
+        val layoutInflater = LayoutInflater.from(parent.context)
 
         return when (viewType)
         {
@@ -72,7 +72,7 @@ class ArticleCardAdapter(val listener: IAdapterListener) : RecyclerView.Adapter<
                 h.articleCardIV.setImageResource(R.drawable.ic_dashboard_black_24dp)
             }
 
-            h.updateUrl(it.fullurl)
+            h.updatePage(it)
         }
     }
 
@@ -87,20 +87,20 @@ class ArticleCardAdapter(val listener: IAdapterListener) : RecyclerView.Adapter<
     {
         val articleCardIV: ImageView = itemView.findViewById<ImageView>(R.id.card_article_iv)
         val articleCardTV: TextView = itemView.findViewById<TextView>(R.id.card_article_tv)
-        private var currentUrl: String? = null
+        private var currentPage: WikiPage? = null
 
         init
         {
             itemView.setOnClickListener { _ ->
-                currentUrl?.let {
+                currentPage?.let {
                     listener.clickOnItem(it)
                 }
             }
         }
 
-        fun updateUrl(url: String?)
+        fun updatePage(page: WikiPage?)
         {
-            currentUrl = url
+            currentPage = page
         }
     }
 
@@ -108,5 +108,5 @@ class ArticleCardAdapter(val listener: IAdapterListener) : RecyclerView.Adapter<
 
 interface IAdapterListener
 {
-    fun clickOnItem(url: String)
+    fun clickOnItem(page: WikiPage)
 }

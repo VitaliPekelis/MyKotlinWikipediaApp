@@ -39,24 +39,24 @@ data class FavoritesEntity(
         /**
          * Create a new {@link HistoryEntity} from the specified {@link ContentValues}.
          *
-         * @param values A {@link ContentValues} that at least contain {@link #COLUMN_TITLE}.
+         * @param contentValues A {@link ContentValues} that at least contain {@link #COLUMN_TITLE}.
          * @return A newly created {@link HistoryEntity} instance.
          */
-        fun fromContentValues(values: ContentValues): FavoritesEntity{
+        fun fromContentValues(contentValues: ContentValues): FavoritesEntity{
 
             val favoritesEntity = FavoritesEntity()
 
-            if(values.containsKey(HistoryEntity.COLUMN_ID))
-                favoritesEntity.id = values.getAsLong(FavoritesEntity.COLUMN_ID)
+            if(contentValues.containsKey(HistoryEntity.COLUMN_ID))
+                favoritesEntity.id = contentValues.getAsLong(FavoritesEntity.COLUMN_ID)
 
-            if(values.containsKey(HistoryEntity.COLUMN_TITLE))
-                favoritesEntity.title = values.getAsString(FavoritesEntity.COLUMN_TITLE)
+            if(contentValues.containsKey(HistoryEntity.COLUMN_TITLE))
+                favoritesEntity.title = contentValues.getAsString(FavoritesEntity.COLUMN_TITLE)
 
-            if(values.containsKey(HistoryEntity.COLUMN_URL))
-                favoritesEntity.url = values.getAsString(FavoritesEntity.COLUMN_URL)
+            if(contentValues.containsKey(HistoryEntity.COLUMN_URL))
+                favoritesEntity.url = contentValues.getAsString(FavoritesEntity.COLUMN_URL)
 
-            if(values.containsKey(HistoryEntity.COLUMN_THUMBNAIL))
-                favoritesEntity.thumbnail = values.getAsString(FavoritesEntity.COLUMN_THUMBNAIL)
+            if(contentValues.containsKey(HistoryEntity.COLUMN_THUMBNAIL))
+                favoritesEntity.thumbnail = contentValues.getAsString(FavoritesEntity.COLUMN_THUMBNAIL)
 
             return favoritesEntity
         }

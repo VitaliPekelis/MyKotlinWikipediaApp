@@ -48,15 +48,15 @@ class FavoritesProvider: ContentProvider()
         {
             val context = context ?: return null
 
-            val daoFavorites = WikiDatabase.getInstance(context)?.favorites()
+            val daoFavorites = WikiDatabase.getInstance(context).favorites()
 
             return if (code== CODE_SENTENCE_DIR)
             {
-                daoFavorites?.selectAll()
+                daoFavorites.selectAll()
             }
             else /*CODE_SENTENCE_ITEM*/
             {
-                daoFavorites?.selectById(ContentUris.parseId(uri))
+                daoFavorites.selectById(ContentUris.parseId(uri))
             }
 
         }
@@ -66,24 +66,79 @@ class FavoritesProvider: ContentProvider()
 
     }
 
-    override fun insert(uri: Uri?, values: ContentValues?): Uri
+    override fun insert(uri: Uri?, contentValues: ContentValues): Uri?
     {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        when (MATCHER.match(uri))
+        {
+            CODE_SENTENCE_DIR -> {
+
+                context?: return null
+
+                val id = WikiDatabase.getInstance(context).favorites().insert(FavoritesEntity.fromContentValues(contentValues))
+                context.contentResolver.notifyChange(uri, null)
+
+                return  ContentUris.withAppendedId(uri, id)
+            }
+
+            CODE_SENTENCE_ITEM -> throw IllegalArgumentException("Invalid URI, cannot insert with ID: " + uri)
+
+            else -> throw IllegalArgumentException("Unknown URI: " + uri)
+        }
     }
 
-    override fun update(uri: Uri?, values: ContentValues?, selection: String?, selectionArgs: Array<out String>?): Int
+    override fun update(uri: Uri?, contentValues: ContentValues, selection: String?, selectionArgs: Array<out String>?): Int
     {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        when(MATCHER.match(uri))
+        {
+            CODE_SENTENCE_DIR -> throw IllegalArgumentException("Invalid URI, cannot update without ID" + uri)
+
+            CODE_SENTENCE_ITEM -> {
+                context?: return 0
+
+                val favoritesEntity =  FavoritesEntity.fromContentValues(contentValues)
+                favoritesEntity.id = ContentUris.parseId(uri)
+
+                val count = WikiDatabase.getInstance(context).favorites().update(favoritesEntity)
+
+                context.contentResolver.notifyChange(uri, null)
+
+                return count
+            }
+
+            else -> throw IllegalArgumentException("Unknown URI: "+uri)
+        }
+
     }
 
-    override fun delete(uri: Uri?, selection: String?, selectionArgs: Array<out String>?): Int
+    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int
     {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        when (MATCHER.match(uri))
+        {
+            CODE_SENTENCE_DIR -> throw IllegalArgumentException("Invalid URI, cannot update without ID" + uri)
+
+            CODE_SENTENCE_ITEM ->  {
+                context ?: return 0
+                val count = WikiDatabase.getInstance(context).favorites().deleteById(ContentUris.parseId(uri))
+                context.contentResolver.notifyChange(uri, null)
+
+                return count
+            }
+
+            else -> throw IllegalArgumentException("Unknown URI: " + uri)
+        }
     }
 
-    override fun getType(uri: Uri?): String
+    override fun getType(uri: Uri): String?
     {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return when (MATCHER.match(uri))
+        {
+            CODE_SENTENCE_DIR -> "vnd.android.cursor.dir/" + AUTHORITY + "." + FavoritesEntity.TABLE_NAME
+
+            CODE_SENTENCE_ITEM -> "vnd.android.cursor.item/" + AUTHORITY + "." + FavoritesEntity.TABLE_NAME
+
+            else -> throw IllegalArgumentException("Unknowen URI: "+ uri)
+        }
+
     }
 
 }

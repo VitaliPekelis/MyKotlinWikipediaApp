@@ -10,10 +10,16 @@ abstract class WikiDatabase : RoomDatabase()
 {
 
     /**
-     * @return The DAO for the SearchSentence table.
+     * @return The DAO for the Favoriets table.
      */
     @SuppressWarnings("WeakerAccess")
     abstract fun favorites(): FavoritesDao
+
+    /**
+     * @return The DAO for the Histories table.
+     */
+    @SuppressWarnings("WeakerAccess")
+    abstract fun histories(): HistoriesDao
 
     companion object {
         private var INSTANCE: WikiDatabase? = null
@@ -42,7 +48,7 @@ abstract class WikiDatabase : RoomDatabase()
             }
         }*/
 
-        fun getInstance(context: Context): WikiDatabase?
+        fun getInstance(context: Context): WikiDatabase
         {
             if (INSTANCE == null)
             {
@@ -68,7 +74,7 @@ abstract class WikiDatabase : RoomDatabase()
                             .build()
                 }
             }
-            return INSTANCE
+            return INSTANCE!!
         }
 
         fun destroyInstance() {

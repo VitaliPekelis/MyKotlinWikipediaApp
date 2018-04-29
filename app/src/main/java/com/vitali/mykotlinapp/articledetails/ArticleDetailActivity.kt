@@ -9,12 +9,13 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.vitali.mykotlinapp.R
 import com.vitali.mykotlinapp.global.AppConstants
+import com.vitali.mykotlinapp.models.WikiPage
 import kotlinx.android.synthetic.main.activity_article_detail.*
 
 class ArticleDetailActivity : AppCompatActivity()
 {
 
-    private lateinit var mUrl: String
+    private var mPage: WikiPage? = null
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -84,11 +85,11 @@ class ArticleDetailActivity : AppCompatActivity()
             }
         }
 
-        article_detail_web_v.loadUrl(mUrl)
+        article_detail_web_v.loadUrl(mPage?.fullurl)
     }
 
     private fun getArguments()
     {
-        mUrl = intent.getStringExtra(AppConstants.URL_EXTRA) ?: ""
+        mPage = intent.getParcelableExtra(AppConstants.PAGE_EXTRA) as? WikiPage
     }
 }
