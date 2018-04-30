@@ -11,6 +11,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.vitali.mykotlinapp.R
 import com.vitali.mykotlinapp.articledetails.ArticleDetailActivity
+import com.vitali.mykotlinapp.db.DataBaseWorkingThread
+import com.vitali.mykotlinapp.db.FavoritesEntity
+import com.vitali.mykotlinapp.db.WikiDatabase
 import com.vitali.mykotlinapp.global.AppConstants
 import com.vitali.mykotlinapp.models.WikiPage
 import kotlinx.android.synthetic.main.fragment_favorites.*
@@ -36,6 +39,7 @@ class FavoritesFragment : Fragment(), IAdapterListener
     private var param1: String? = null
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
+    private val mAdapter = SearchArticlesAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -56,7 +60,26 @@ class FavoritesFragment : Fragment(), IAdapterListener
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)
     {
         favorites_article_rv.layoutManager = LinearLayoutManager(context)
-        favorites_article_rv.adapter = SearchArticlesAdapter(this)
+        favorites_article_rv.adapter = mAdapter
+
+        fetchFavorites()
+    }
+
+    private fun fetchFavorites()
+    {
+        DataBaseWorkingThread(object: DataBaseWorkingThread.IExecutor<List<FavoritesEntity>?>{
+            override fun doInBackground(): List<FavoritesEntity>?
+            {
+                return WikiDatabase.getInstance(context!!).allFavorites()
+            }
+
+            override fun onPostExecute(response: List<FavoritesEntity>?)
+            {
+                /*mAdapter.currentData = response*/
+                //TODO VITALI convert List<FavoritesEntity> to ArrayList<out IRecyclerViewItemData>
+                mAdapter.notifyDataSetChanged()
+            }
+        }).execute()
     }
 
     // TODO: Rename method, update argument and hook method into UI event

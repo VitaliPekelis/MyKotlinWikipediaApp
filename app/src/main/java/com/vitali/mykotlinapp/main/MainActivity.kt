@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity(),
 
     override fun onSearchClick()
     {
-        val searchIntent = Intent(MainActivity@ this, SearchActivity::class.java)
+        val searchIntent = Intent(this@MainActivity, SearchActivity::class.java)
         startActivity(searchIntent)
     }
 

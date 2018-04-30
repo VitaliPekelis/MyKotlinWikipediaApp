@@ -4,12 +4,16 @@ import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 import android.content.ContentValues
+import com.vitali.mykotlinapp.models.WikiPage
 
 @Entity(tableName = FavoritesEntity.TABLE_NAME)
 data class FavoritesEntity(
         @PrimaryKey(autoGenerate = true)
         @ColumnInfo(index= true, name = FavoritesEntity.COLUMN_ID)
         var id: Long? = null,
+
+        @ColumnInfo(name = FavoritesEntity.COLUMN_PAGE_ID)
+        var pageId:Long? = null,
 
         @ColumnInfo(name = FavoritesEntity.COLUMN_TITLE)
         var title:String? = null,
@@ -28,6 +32,8 @@ data class FavoritesEntity(
 
         /** The name of the ID column.  */
         const val COLUMN_ID = "id"
+        /** The name of the PAGE ID column.  */
+        const val COLUMN_PAGE_ID = "page_id"
         /**The name of the title column*/
         const val COLUMN_TITLE = "title"
         /**The name of the url column*/
@@ -46,22 +52,34 @@ data class FavoritesEntity(
 
             val favoritesEntity = FavoritesEntity()
 
-            if(contentValues.containsKey(HistoryEntity.COLUMN_ID))
+            if(contentValues.containsKey(FavoritesEntity.COLUMN_ID))
                 favoritesEntity.id = contentValues.getAsLong(FavoritesEntity.COLUMN_ID)
 
-            if(contentValues.containsKey(HistoryEntity.COLUMN_TITLE))
+            if(contentValues.containsKey(FavoritesEntity.COLUMN_PAGE_ID))
+                favoritesEntity.pageId = contentValues.getAsLong(FavoritesEntity.COLUMN_PAGE_ID)
+
+            if(contentValues.containsKey(FavoritesEntity.COLUMN_TITLE))
                 favoritesEntity.title = contentValues.getAsString(FavoritesEntity.COLUMN_TITLE)
 
-            if(contentValues.containsKey(HistoryEntity.COLUMN_URL))
+            if(contentValues.containsKey(FavoritesEntity.COLUMN_URL))
                 favoritesEntity.url = contentValues.getAsString(FavoritesEntity.COLUMN_URL)
 
-            if(contentValues.containsKey(HistoryEntity.COLUMN_THUMBNAIL))
+            if(contentValues.containsKey(FavoritesEntity.COLUMN_THUMBNAIL))
                 favoritesEntity.thumbnail = contentValues.getAsString(FavoritesEntity.COLUMN_THUMBNAIL)
 
             return favoritesEntity
         }
 
+        fun fromWikiPage(page: WikiPage): FavoritesEntity
+        {
+            val favoritesEntity = FavoritesEntity()
+
+            page.pageid?.let{ favoritesEntity.pageId = page.pageid}
+            page.title?.let{ favoritesEntity.title = page.title}
+            page.fullurl?.let{ favoritesEntity.url = page.fullurl}
+            page.thumbnail?.source.let{  favoritesEntity.thumbnail = page.thumbnail?.source}
+
+            return favoritesEntity
+        }
     }
-
-
 }

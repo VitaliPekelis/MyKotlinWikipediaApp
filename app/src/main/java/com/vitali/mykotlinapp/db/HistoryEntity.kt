@@ -4,12 +4,16 @@ import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 import android.content.ContentValues
+import com.vitali.mykotlinapp.models.WikiPage
 
 @Entity(tableName = HistoryEntity.TABLE_NAME)
 data class HistoryEntity(
         @PrimaryKey(autoGenerate = true)
         @ColumnInfo(index= true, name = HistoryEntity.COLUMN_ID)
         var id: Long? = null,
+
+        @ColumnInfo(name = HistoryEntity.COLUMN_PAGE_ID)
+        var pageId:Long? = null,
 
         @ColumnInfo(name = HistoryEntity.COLUMN_TITLE)
         var title:String? = null,
@@ -28,6 +32,8 @@ data class HistoryEntity(
 
         /** The name of the ID column.  */
         const val COLUMN_ID = "id"
+        /** The name of the PAGE_ID column.  */
+        const val COLUMN_PAGE_ID = "page_id"
         /**The name of the title column*/
         const val COLUMN_TITLE = "title"
         /**The name of the url column*/
@@ -56,6 +62,24 @@ data class HistoryEntity(
 
             if(values.containsKey(COLUMN_THUMBNAIL))
                 historyEntity.thumbnail = values.getAsString(COLUMN_THUMBNAIL)
+
+            return historyEntity
+        }
+
+        /**
+         * Create a new {@link HistoryEntity} from the specified {@link WikiPage}.
+         *
+         * @param values A {@link ContentValues} that at least contain {@link #COLUMN_TITLE}.
+         * @return A newly created {@link HistoryEntity} instance.
+         */
+        fun fromWikiPage(page: WikiPage): HistoryEntity {
+
+            val historyEntity = HistoryEntity()
+
+            page.pageid?.let{ historyEntity.pageId = page.pageid }
+            page.title?.let{ historyEntity.title = page.title }
+            page.fullurl?.let{ historyEntity.url = page.fullurl }
+            page.thumbnail?.source.let{ historyEntity.thumbnail = page.thumbnail?.source }
 
             return historyEntity
         }

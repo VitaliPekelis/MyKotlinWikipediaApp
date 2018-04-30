@@ -63,6 +63,14 @@ interface FavoritesDao
     @Query("DELETE FROM " + FavoritesEntity.TABLE_NAME + " WHERE " + FavoritesEntity.COLUMN_ID + " = :id")
     fun deleteById(id: Long): Int
 
+    /**
+     * Delete a favorite by the ID.
+     *
+     * @param pageid The row PAGE_ID.
+     * @return A number of favorite deleted. This should always be `1`.
+     */
+    @Query("DELETE FROM " + FavoritesEntity.TABLE_NAME + " WHERE " + FavoritesEntity.COLUMN_PAGE_ID +" = :pageid")
+    fun deleteByPageId(pageid: Long): Int
 
     /**
      * Select a favorite by the ID.

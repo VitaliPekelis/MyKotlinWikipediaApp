@@ -5,14 +5,22 @@ import android.os.Parcelable
 import com.vitali.mykotlinapp.IRecyclerViewItemData
 import com.vitali.mykotlinapp.global.AppConstants
 
-data class WikiPage(val pageid: Int? = null,
+data class WikiPage(val pageid: Long? = null,
                     val title: String? = null,
                     val fullurl: String? = null,
                     val thumbnail: WikiThumbnail? = null)
     : IRecyclerViewItemData, Parcelable
 {
+    //----------------------------------------------------------------------------------------------
+    // IRecyclerViewItemData - implementation
+    //----------------------------------------------------------------------------------------------
+    override fun getItemType(): Int
+    {
+        return AppConstants.ARTICLE_ITEM
+    }
+
     constructor(source: Parcel) : this(
-            source.readValue(Int::class.java.classLoader) as Int?,
+            source.readValue(Long::class.java.classLoader) as Long?,
             source.readString(),
             source.readString(),
             source.readParcelable<WikiThumbnail>(WikiThumbnail::class.java.classLoader)
@@ -35,13 +43,5 @@ data class WikiPage(val pageid: Int? = null,
             override fun createFromParcel(source: Parcel): WikiPage = WikiPage(source)
             override fun newArray(size: Int): Array<WikiPage?> = arrayOfNulls(size)
         }
-    }
-
-    //----------------------------------------------------------------------------------------------
-    // IRecyclerViewItemData - implementation
-    //----------------------------------------------------------------------------------------------
-    override fun getItemType(): Int
-    {
-        return AppConstants.ARTICLE_ITEM
     }
 }

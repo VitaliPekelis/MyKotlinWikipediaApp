@@ -4,6 +4,7 @@ import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.content.Context
+import com.vitali.mykotlinapp.models.WikiPage
 
 @Database(entities = [FavoritesEntity::class, HistoryEntity::class], version = 1, exportSchema = false)
 abstract class WikiDatabase : RoomDatabase()
@@ -55,7 +56,6 @@ abstract class WikiDatabase : RoomDatabase()
                 synchronized(WikiDatabase::class) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             WikiDatabase::class.java, "mykotlinapp.db")
-
                             /*.addCallback(object: RoomDatabase.Callback(){
 
                                 override fun onCreate(db: SupportSQLiteDatabase)
@@ -70,8 +70,8 @@ abstract class WikiDatabase : RoomDatabase()
                             })*/
 
                             /*.addMigrations(MIGRATION_1_2)*/
-
                             .build()
+
                 }
             }
             return INSTANCE!!
@@ -80,5 +80,103 @@ abstract class WikiDatabase : RoomDatabase()
         fun destroyInstance() {
             INSTANCE = null
         }
+    }
+
+
+    fun addHistory(page: WikiPage): Long
+    {
+        var result:Long = 0
+
+        val entity = HistoryEntity.fromWikiPage(page)
+
+        beginTransaction()
+        try
+        {
+            runInTransaction { result = histories().insert(entity) }
+            setTransactionSuccessful()
+        }
+        finally
+        {
+            endTransaction()
+        }
+
+        return result
+    }
+
+    fun isFavorite(pageId: Long): Boolean
+    {
+        var allFavorites = emptyList<FavoritesEntity>()
+
+        beginTransaction()
+        try
+        {
+            runInTransaction { allFavorites = favorites().selectAllFavorites() }
+            setTransactionSuccessful()
+
+        }
+        finally
+        {
+            endTransaction()
+        }
+
+        val predicateIsPageIdExist = {f:FavoritesEntity -> f.pageId == pageId}
+
+        return allFavorites.any(predicateIsPageIdExist)
+    }
+
+    fun removeFavorite(pageId: Long): Boolean
+    {
+        var result = 0
+
+        beginTransaction()
+        try
+        {
+            runInTransaction {  result = favorites().deleteByPageId(pageId)}
+            setTransactionSuccessful()
+        }
+        finally
+        {
+            endTransaction()
+        }
+
+        return result == 1
+    }
+
+    fun addFavorite(page: WikiPage): Boolean
+    {
+        var result:Long = -1
+
+        val entity = FavoritesEntity.fromWikiPage(page)
+
+        beginTransaction()
+        try
+        {
+            runInTransaction { result = favorites().insert(entity) }
+            setTransactionSuccessful()
+        }
+        finally
+        {
+            endTransaction()
+        }
+
+        return result > 0
+    }
+
+    fun allFavorites(): List<FavoritesEntity>?
+    {
+        var result:List<FavoritesEntity>? = null
+
+        beginTransaction()
+        try
+        {
+            runInTransaction { result = favorites().selectAllFavorites() }
+            setTransactionSuccessful()
+        }
+        finally
+        {
+            endTransaction()
+        }
+
+        return result
     }
 }
