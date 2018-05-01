@@ -14,7 +14,6 @@ import com.vitali.mykotlinapp.models.WikiPage
 
 class SearchArticlesAdapter(val listener: IAdapterListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>()
 {
-
     var currentData: ArrayList<out IRecyclerViewItemData> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder

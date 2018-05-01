@@ -2,7 +2,6 @@ package com.vitali.mykotlinapp.main
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -12,17 +11,13 @@ import android.view.ViewGroup
 import com.vitali.mykotlinapp.R
 import com.vitali.mykotlinapp.articledetails.ArticleDetailActivity
 import com.vitali.mykotlinapp.db.DataBaseWorkingThread
-import com.vitali.mykotlinapp.db.FavoritesEntity
 import com.vitali.mykotlinapp.db.WikiDatabase
 import com.vitali.mykotlinapp.global.AppConstants
 import com.vitali.mykotlinapp.models.WikiPage
 import kotlinx.android.synthetic.main.fragment_favorites.*
 
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+/*private const val ARG_PARAM1 = "param1"
+private const val ARG_PARAM2 = "param2"*/
 
 /**
  * A simple [Fragment] subclass.
@@ -36,17 +31,17 @@ private const val ARG_PARAM2 = "param2"
 class FavoritesFragment : Fragment(), IAdapterListener
 {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    /*private var param1: String? = null
+    private var param2: String? = null*/
     private var listener: OnFragmentInteractionListener? = null
-    private val mAdapter = SearchArticlesAdapter(this)
+    private val mAdapter = ArticleCardAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            /*param1 = it.getString(ARG_PARAM1)
+            param2 = it.getString(ARG_PARAM2)*/
         }
     }
 
@@ -67,25 +62,23 @@ class FavoritesFragment : Fragment(), IAdapterListener
 
     private fun fetchFavorites()
     {
-        DataBaseWorkingThread(object: DataBaseWorkingThread.IExecutor<List<FavoritesEntity>?>{
-            override fun doInBackground(): List<FavoritesEntity>?
+        context?.let {
+            DataBaseWorkingThread(object : DataBaseWorkingThread.IExecutor<ArrayList<WikiPage>>
             {
-                return WikiDatabase.getInstance(context!!).allFavorites()
-            }
+                override fun doInBackground(): ArrayList<WikiPage>
+                {
+                    return WikiDatabase.getInstance(it).allFavorites()
+                }
 
-            override fun onPostExecute(response: List<FavoritesEntity>?)
-            {
-                /*mAdapter.currentData = response*/
-                //TODO VITALI convert List<FavoritesEntity> to ArrayList<out IRecyclerViewItemData>
-                mAdapter.notifyDataSetChanged()
-            }
-        }).execute()
-    }
+                override fun onPostExecute(response: ArrayList<WikiPage>)
+                {
+                    mAdapter.currentData.clear()
+                    mAdapter.currentData = response
 
-    // TODO: Rename method, update argument and hook method into UI event
-    fun onButtonPressed(uri: Uri)
-    {
-        listener?.onFavoritesFragmentInteraction(/*uri*/)
+                    mAdapter.notifyDataSetChanged()
+                }
+            }).execute()
+        }
     }
 
     override fun onAttach(context: Context)
@@ -117,24 +110,6 @@ class FavoritesFragment : Fragment(), IAdapterListener
         startActivity(intent)
     }
 
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson [Communicating with Other Fragments]
-     * (http://developer.android.com/training/basics/fragments/communicating.html)
-     * for more information.
-     */
-    interface OnFragmentInteractionListener
-    {
-        // TODO: Update argument type and name
-        fun onFavoritesFragmentInteraction(/*uri: Uri*/)
-    }
-
     companion object
     {
         /**
@@ -153,5 +128,22 @@ class FavoritesFragment : Fragment(), IAdapterListener
                         putString(ARG_PARAM2, param2)*/
                     }
                 }
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     *
+     *
+     * See the Android Training lesson [Communicating with Other Fragments]
+     * (http://developer.android.com/training/basics/fragments/communicating.html)
+     * for more information.
+     */
+    interface OnFragmentInteractionListener
+    {
+        // TODO: Update argument type and name
+        fun onFavoritesFragmentInteraction(/*uri: Uri*/)
     }
 }

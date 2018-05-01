@@ -110,9 +110,9 @@ class SearchActivity : AppCompatActivity(), IAdapterListener
             {
                 Snackbar.make(search_rv, "An error occurred", Snackbar.LENGTH_SHORT).show()
             }
-
         })
     }
+
 
     //----------------------------------------------------------------------------------------------
     // IAdapterListener - implementation

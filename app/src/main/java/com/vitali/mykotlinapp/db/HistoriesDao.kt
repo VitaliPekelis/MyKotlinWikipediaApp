@@ -50,7 +50,7 @@ interface HistoriesDao
      * @return A [List<HistoryEntity>] of all the histories in the table.
      */
     @Query("SELECT * FROM " + HistoryEntity.TABLE_NAME + " ORDER BY " + HistoryEntity.COLUMN_ID)
-    fun selectAllFavorites(): List<HistoryEntity>
+    fun selectAllHistories(): List<HistoryEntity>
 
 
     /**

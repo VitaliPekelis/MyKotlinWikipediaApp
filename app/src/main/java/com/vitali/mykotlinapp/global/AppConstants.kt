@@ -2,7 +2,6 @@ package com.vitali.mykotlinapp.global
 
 object AppConstants
 {
-
-    val ARTICLE_ITEM = 11
-    val PAGE_EXTRA = "page_extra"
+    const val ARTICLE_ITEM = 11
+    const val PAGE_EXTRA = "page_extra"
 }

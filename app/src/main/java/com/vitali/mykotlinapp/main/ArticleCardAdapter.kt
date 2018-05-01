@@ -14,9 +14,6 @@ import com.vitali.mykotlinapp.models.WikiPage
 
 class ArticleCardAdapter(val listener: IAdapterListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>()
 {
-
-    //private var data: IRecyclerViewItemData
-
     var currentData: ArrayList<out IRecyclerViewItemData> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
@@ -30,10 +27,6 @@ class ArticleCardAdapter(val listener: IAdapterListener) : RecyclerView.Adapter<
             {
                 ArticleCardViewHolder(layoutInflater.inflate(R.layout.item_card_article, parent, false), listener)
             }
-
-        /*1 -> {
-
-        }*/
 
             else -> super.createViewHolder(parent, viewType)
         }
@@ -103,7 +96,6 @@ class ArticleCardAdapter(val listener: IAdapterListener) : RecyclerView.Adapter<
             currentPage = page
         }
     }
-
 }
 
 interface IAdapterListener

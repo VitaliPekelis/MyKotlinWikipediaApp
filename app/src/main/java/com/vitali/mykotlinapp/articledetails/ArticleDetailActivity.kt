@@ -39,7 +39,7 @@ class ArticleDetailActivity : AppCompatActivity()
                     return WikiDatabase.getInstance(this@ArticleDetailActivity).addHistory(mPage!!)
                 }
 
-                override fun onPostExecute(value: Long)
+                override fun onPostExecute(response: Long)
                 {
                     //do nothing
                 }

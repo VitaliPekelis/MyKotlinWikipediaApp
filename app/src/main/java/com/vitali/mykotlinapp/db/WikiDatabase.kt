@@ -4,6 +4,8 @@ import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.content.Context
+import com.vitali.mykotlinapp.global.favoritesEntityToWikiPages
+import com.vitali.mykotlinapp.global.historiesEntityToWikiPages
 import com.vitali.mykotlinapp.models.WikiPage
 
 @Database(entities = [FavoritesEntity::class, HistoryEntity::class], version = 1, exportSchema = false)
@@ -162,14 +164,14 @@ abstract class WikiDatabase : RoomDatabase()
         return result > 0
     }
 
-    fun allFavorites(): List<FavoritesEntity>?
+    fun allFavorites(): ArrayList<WikiPage>
     {
-        var result:List<FavoritesEntity>? = null
+        var favorites = emptyList<FavoritesEntity>()
 
         beginTransaction()
         try
         {
-            runInTransaction { result = favorites().selectAllFavorites() }
+            runInTransaction { favorites = favorites().selectAllFavorites() }
             setTransactionSuccessful()
         }
         finally
@@ -177,6 +179,25 @@ abstract class WikiDatabase : RoomDatabase()
             endTransaction()
         }
 
-        return result
+
+        return favorites.favoritesEntityToWikiPages()
+    }
+
+    fun allHistories(): ArrayList<WikiPage>
+    {
+        var histories = emptyList<HistoryEntity>()
+
+        beginTransaction()
+        try
+        {
+            runInTransaction { histories = histories().selectAllHistories() }
+            setTransactionSuccessful()
+        }
+        finally
+        {
+            endTransaction()
+        }
+
+        return histories.historiesEntityToWikiPages()
     }
 }
