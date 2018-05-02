@@ -55,7 +55,11 @@ class HistoryFragment : Fragment(), IAdapterListener
     {
         history_article_rv.layoutManager = LinearLayoutManager(context)
         history_article_rv.adapter = mAdapter
+    }
 
+    override fun onResume()
+    {
+        super.onResume()
         fetchHistories()
     }
 

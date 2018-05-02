@@ -56,7 +56,11 @@ class FavoritesFragment : Fragment(), IAdapterListener
     {
         favorites_article_rv.layoutManager = LinearLayoutManager(context)
         favorites_article_rv.adapter = mAdapter
+    }
 
+    override fun onResume()
+    {
+        super.onResume()
         fetchFavorites()
     }
 

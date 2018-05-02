@@ -1,12 +1,12 @@
 package com.vitali.mykotlinapp.db
 
+import android.arch.persistence.db.SupportSQLiteDatabase
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.content.Context
-import com.vitali.mykotlinapp.global.favoritesEntityToWikiPages
-import com.vitali.mykotlinapp.global.historiesEntityToWikiPages
 import com.vitali.mykotlinapp.models.WikiPage
+import com.vitali.mykotlinapp.models.WikiThumbnail
 
 @Database(entities = [FavoritesEntity::class, HistoryEntity::class], version = 1, exportSchema = false)
 abstract class WikiDatabase : RoomDatabase()
@@ -58,19 +58,26 @@ abstract class WikiDatabase : RoomDatabase()
                 synchronized(WikiDatabase::class) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             WikiDatabase::class.java, "mykotlinapp.db")
-                            /*.addCallback(object: RoomDatabase.Callback(){
+                            .addCallback(object: RoomDatabase.Callback(){
 
                                 override fun onCreate(db: SupportSQLiteDatabase)
                                 {
                                     super.onCreate(db)
+                                    db.execSQL("CREATE TRIGGER delete_till_30 INSERT ON "+
+                                    HistoryEntity.TABLE_NAME+
+                                    "  WHEN (select count(*) from " +
+                                            HistoryEntity.TABLE_NAME +
+                                            ")>29\n" +
+                                            "BEGIN\n"+
+                                            "    DELETE FROM " + HistoryEntity.TABLE_NAME + " WHERE " + HistoryEntity.COLUMN_ID + " IN  (SELECT " + HistoryEntity.COLUMN_ID + " FROM " + HistoryEntity.TABLE_NAME + " ORDER BY " + HistoryEntity.COLUMN_ID + " limit (select count(*) -29 from " + HistoryEntity.TABLE_NAME + " ));\n" +
+                                            "END;")
                                 }
 
-                                override fun onOpen(db: SupportSQLiteDatabase)
+                                /*override fun onOpen(db: SupportSQLiteDatabase)
                                 {
                                     super.onOpen(db)
-                                }
-                            })*/
-
+                                }*/
+                            })
                             /*.addMigrations(MIGRATION_1_2)*/
                             .build()
 
@@ -180,7 +187,8 @@ abstract class WikiDatabase : RoomDatabase()
         }
 
 
-        return favorites.favoritesEntityToWikiPages()
+        return favorites.map{
+            WikiPage(it.pageId, it.title, it.url, WikiThumbnail(it.thumbnail))} as ArrayList<WikiPage>
     }
 
     fun allHistories(): ArrayList<WikiPage>
@@ -198,6 +206,8 @@ abstract class WikiDatabase : RoomDatabase()
             endTransaction()
         }
 
-        return histories.historiesEntityToWikiPages()
+        return histories.map{
+            WikiPage(it.pageId, it.title, it.url, WikiThumbnail(it.thumbnail))
+        } as ArrayList<WikiPage>
     }
 }
