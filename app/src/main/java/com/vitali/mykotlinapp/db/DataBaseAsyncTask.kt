@@ -2,7 +2,7 @@ package com.vitali.mykotlinapp.db
 
 import android.os.AsyncTask
 
-class DataBaseWorkingThread<T>(private val executor: IExecutor<T>) : AsyncTask<Void, Void, T>()
+class DataBaseAsyncTask<T>(private val executor: IExecutor<T>) : AsyncTask<Void, Void, T>()
 {
 
     override fun doInBackground(vararg voids: Void): T

@@ -5,6 +5,8 @@ import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.content.Context
+import com.vitali.mykotlinapp.Logger
+import com.vitali.mykotlinapp.global.ioThread
 import com.vitali.mykotlinapp.models.WikiPage
 import com.vitali.mykotlinapp.models.WikiThumbnail
 
@@ -92,24 +94,25 @@ abstract class WikiDatabase : RoomDatabase()
     }
 
 
-    fun addHistory(page: WikiPage): Long
+    fun addHistory(page: WikiPage)
     {
-        var result:Long = 0
-
+        var result:Long = -1
         val entity = HistoryEntity.fromWikiPage(page)
 
-        beginTransaction()
-        try
-        {
-            runInTransaction { result = histories().insert(entity) }
-            setTransactionSuccessful()
-        }
-        finally
-        {
-            endTransaction()
-        }
+        ioThread {
+            beginTransaction()
+            try
+            {
+                runInTransaction { result = histories().insert(entity) }
+                setTransactionSuccessful()
 
-        return result
+                Logger.logDebug("insert history","To db with long = $result")
+            }
+            finally
+            {
+                endTransaction()
+            }
+        }
     }
 
     fun isFavorite(pageId: Long): Boolean
@@ -210,4 +213,5 @@ abstract class WikiDatabase : RoomDatabase()
             WikiPage(it.pageId, it.title, it.url, WikiThumbnail(it.thumbnail))
         } as ArrayList<WikiPage>
     }
+
 }

@@ -10,7 +10,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
 import com.vitali.mykotlinapp.R
-import com.vitali.mykotlinapp.db.DataBaseWorkingThread
+import com.vitali.mykotlinapp.db.DataBaseAsyncTask
 import com.vitali.mykotlinapp.db.WikiDatabase
 import com.vitali.mykotlinapp.global.AppConstants
 import com.vitali.mykotlinapp.models.WikiPage
@@ -31,20 +31,8 @@ class ArticleDetailActivity : AppCompatActivity()
         initUi()
 
         mPage?.let {
-
-            DataBaseWorkingThread(object: DataBaseWorkingThread.IExecutor<Long>
-            {
-                override fun doInBackground(): Long
-                {
-                    return WikiDatabase.getInstance(this@ArticleDetailActivity).addHistory(mPage!!)
-                }
-
-                override fun onPostExecute(response: Long)
-                {
-                    //do nothing
-                }
-            }).execute()
-
+            WikiDatabase.getInstance(this@ArticleDetailActivity)
+                    .addHistory(mPage!!)
         }
     }
 
@@ -79,7 +67,7 @@ class ArticleDetailActivity : AppCompatActivity()
         {
             val db = WikiDatabase.getInstance(this)
 
-            DataBaseWorkingThread(object :DataBaseWorkingThread.IExecutor<Boolean>{
+            DataBaseAsyncTask(object :DataBaseAsyncTask.IExecutor<Boolean>{
                 override fun doInBackground(): Boolean
                 {
                     return db.isFavorite(mPage!!.pageid!!)
@@ -105,7 +93,7 @@ class ArticleDetailActivity : AppCompatActivity()
 
     private fun addFavorite(db: WikiDatabase)
     {
-        DataBaseWorkingThread(object :DataBaseWorkingThread.IExecutor<Boolean>
+        DataBaseAsyncTask(object :DataBaseAsyncTask.IExecutor<Boolean>
         {
             override fun doInBackground(): Boolean
             {
@@ -123,7 +111,7 @@ class ArticleDetailActivity : AppCompatActivity()
 
     private fun removeFavorite(db: WikiDatabase)
     {
-        DataBaseWorkingThread(object :DataBaseWorkingThread.IExecutor<Boolean>{
+        DataBaseAsyncTask(object :DataBaseAsyncTask.IExecutor<Boolean>{
             override fun doInBackground(): Boolean
             {
                 return db.removeFavorite(mPage!!.pageid!!)

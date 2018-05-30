@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.vitali.mykotlinapp.R
-import com.vitali.mykotlinapp.db.DataBaseWorkingThread
+import com.vitali.mykotlinapp.db.DataBaseAsyncTask
 import com.vitali.mykotlinapp.db.WikiDatabase
 import com.vitali.mykotlinapp.models.WikiPage
 import kotlinx.android.synthetic.main.fragment_history.*
@@ -66,7 +66,7 @@ class HistoryFragment : Fragment(), IAdapterListener
     private fun fetchHistories()
     {
         context?.let {
-            DataBaseWorkingThread(object : DataBaseWorkingThread.IExecutor<ArrayList<WikiPage>>
+            DataBaseAsyncTask(object : DataBaseAsyncTask.IExecutor<ArrayList<WikiPage>>
             {
                 override fun doInBackground(): ArrayList<WikiPage>
                 {

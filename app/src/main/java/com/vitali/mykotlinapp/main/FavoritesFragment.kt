@@ -10,7 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.vitali.mykotlinapp.R
 import com.vitali.mykotlinapp.articledetails.ArticleDetailActivity
-import com.vitali.mykotlinapp.db.DataBaseWorkingThread
+import com.vitali.mykotlinapp.db.DataBaseAsyncTask
 import com.vitali.mykotlinapp.db.WikiDatabase
 import com.vitali.mykotlinapp.global.AppConstants
 import com.vitali.mykotlinapp.models.WikiPage
@@ -67,7 +67,7 @@ class FavoritesFragment : Fragment(), IAdapterListener
     private fun fetchFavorites()
     {
         context?.let {
-            DataBaseWorkingThread(object : DataBaseWorkingThread.IExecutor<ArrayList<WikiPage>>
+            DataBaseAsyncTask(object : DataBaseAsyncTask.IExecutor<ArrayList<WikiPage>>
             {
                 override fun doInBackground(): ArrayList<WikiPage>
                 {
